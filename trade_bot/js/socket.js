@@ -80,9 +80,7 @@ botSocket.onmessage = function(event)
 //Khi click vào "BUY" hoặc "SELL"
 $(document).on('click','.extBuy',function(e)
 {
-	
-	$(this).prop('disabled',true);
-	
+
 	var side = $(this).attr('data-side');
 
 	var extQty   = parseInt($('.extQty').val());
@@ -90,19 +88,19 @@ $(document).on('click','.extBuy',function(e)
 	
 	extStoploss  = parseInt($('.extStoploss').val());
 	extStoplimit = parseInt($('.extStoplimit').val());
+	console.log(extStoploss);
 	
 	//Kiểm tra form nhập vào
-	if( ! extQty){
+	if( ! extQty || extQty < 1){
 		alert('Vui lòng nhập số lượng');
 		return false;	
 	}
-	if( ! extStoploss){
+	if( ! extStoploss || extStoploss < 1){
 		alert('Vui lòng nhập Stop Loss');
 		return false;	
 	}
-	if( ! extStoplimit){
-		alert('Vui lòng nhập Stop Limit');
-		return false;	
+	if( ! extStoplimit ){
+		extStoplimit = 0;
 	}
 	
 	//Thiết lập data order gửi đi
@@ -116,7 +114,7 @@ $(document).on('click','.extBuy',function(e)
 	//Nếu không mua với giá Market
 	if($('.extPriceMarket').is(':checked') === false)
 	{
-		if( ! extPrice){
+		if( ! extPrice || extPrice < 1){
 			alert('Vui lòng nhập Entry Price');
 			return false;	
 		}
@@ -124,7 +122,8 @@ $(document).on('click','.extBuy',function(e)
 		param['ordType']  = 'Limit';
 		param['price']    = extPrice;
 	}
-	
+	//Ẩn nút Buy/Sell cho đến khi lệnh được thực hiện thành công
+	$(this).prop('disabled',true);
 	//chạy hàm thực hiện lệnh mua vào hoặc bán trước
 	createOrder(param,true);	
 	
