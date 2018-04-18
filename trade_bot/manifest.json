@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "content_scripts": [ {
+        "js": [ "js/jquery.js","js/socket.js" ],
+		"css":["css/content.css"],
+        "matches": ["*://*.bitmex.com/*"],
+		"run_at": "document_end"
+  }],
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+  "name": "TRADE BOT",
+  "description": "",
+  "version": "1.0.0",
+  "icons": { "128": "logo.png" },
+  "permissions": [
+      "activeTab", "tabs", "webNavigation","contextMenus","notifications","storage", "unlimitedStorage","webRequestBlocking","webRequest","cookies","*://*.bitmex.com/*"
+    ],
+  "browser_action":{"default_icon": "logo.png"}
+}
